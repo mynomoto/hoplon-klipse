@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="UTF-8">
+    <title> Hoplon Klipse </title>
+      <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+      <link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/app.klipse.tech/css/codemirror.css">
+  </head>
+
+  <body>
+    <h1> Running Hoplon on Klipse </h1>
+
+    This page is live and interactive. It is powered by <a href="https://github.com/viebel/klipse">klipse</a>.
+
+    <h2> Setup </h2>
+    First let's load <b>hoplon</b> and it's dependencies from the github repository (It might take a couple of seconds...):
+
+    <br/>
+    <br/>
+
+    <div class="clojure" data-external-libs="https://raw.githubusercontent.com/mynomoto/hoplon/cljs/src,https://raw.githubusercontent.com/mynomoto/javelin/master/src,https://raw.githubusercontent.com/tailrecursion/cljs-priority-map/master/src/cljs">
+      (ns my.hoplon
+        (:require
+          [hoplon.core :as h :include-macros true]
+          [javelin.core :as j :refer [cell] :refer-macros [cell= defc defc=]]))
+    </div>
+
+    <div class="clojure">
+      (def my-cell (cell 1))
+
+      (defn home []
+        (h/div
+          :id "app"
+          (h/h1 "Welcome to Klipse Hoplon")
+          (h/h2
+            :text my-cell
+            :click #(swap! my-cell inc))))
+
+      (js/jQuery #(.replaceWith (js/jQuery "#app") (home)))
+    </div>
+
+    <div id="app">
+      Not loaded
+    </div>
+
+    <script>
+        window.klipse_settings = {
+            selector: '.clojure'
+        };
+    </script>
+    <script src="https://storage.googleapis.com/app.klipse.tech/plugin/js/klipse_plugin.js"></script>
+  </body>
+</html>
